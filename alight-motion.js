@@ -1,28 +1,22 @@
-let obj = JSON.parse($response.body || "{}");
+/*
+ * Alight Motion VIP Unlock (Classic Working Version)
+ */
+
+let obj = JSON.parse($response.body);
 
 obj = {
-  "result": {
-    "result": "success",
-    "msTime": Date.now(),
+  "result": "success",
+  "accountStatus": {
+    "isVip": true,
+    "vipType": "official",
+    "vipExpiredAt": 4070908800000, // 2099 год
     "licenses": [
       {
-        "benefits": [
-          "RemoveWatermark",
-          "MemberEffects",
-          "ProjectPackageSharing",
-          "FutureMemberFeatures",
-          "AdvancedEasing",
-          "CameraObjects",
-          "LayerParenting",
-          "CloudStorageLowTier"
-        ],
-        "type": "subscription",
-        "store": "apple_app_store",
-        "autoRenewing": true,
-        "productId": "alightcreative.motion.1y_t60_1w",
-        "expires": 4070908800000,
-        "valid": true,
-        "linkStatus": "linked-current"
+        "id": "com.alightcreative.motion.full_subscription_yearly",
+        "period": "yearly",
+        "status": "active",
+        "type": "official",
+        "expiredAt": 4070908800000
       }
     ]
   }
