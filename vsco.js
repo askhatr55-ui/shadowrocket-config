@@ -1,16 +1,25 @@
-let resp = {};
-let obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
-if (typeof $response == "undefined") {
-    delete $request.headers["x-revenuecat-etag"];
-    delete $request.headers["X-RevenueCat-ETag"];
-    resp.headers = $request.headers;
-} else if (obj && obj.subscriber) {
+const obj = JSON.parse($response.body || "{}");
+const data = {
+    "expires_date": "2099-01-01T00:00:00Z",
+    "original_purchase_date": "2023-01-01T00:00:00Z",
+    "purchase_date": "2023-01-01T00:00:00Z",
+    "ownership_type": "PURCHASED",
+    "store": "app_store"
+};
+
+if (obj.subscriber) {
     obj.subscriber.subscriptions = obj.subscriber.subscriptions || {};
     obj.subscriber.entitlements = obj.subscriber.entitlements || {};
-    let data = {"expires_date": "2099-01-01T00:00:00Z", "purchase_date": "2023-01-01T00:00:00Z"};
-    obj.subscriber.subscriptions["com.circles.fin.premium.yearly"] = data;
-    obj.subscriber.entitlements["membership"] = data;
-    obj.subscriber.entitlements["membership"].product_identifier = "com.circles.fin.premium.yearly";
-    resp.body = JSON.stringify(obj);
+    
+    // Идентификаторы для VSCO
+    const vscoId = "com.circles.fin.premium.yearly";
+    const vscoEnt = "membership";
+
+    obj.subscriber.subscriptions[vscoId] = data;
+    obj.subscriber.entitlements[vscoEnt] = {
+        ...data,
+        "product_identifier": vscoId
+    };
 }
-$done(resp);
+
+$done({ body: JSON.stringify(obj) });
