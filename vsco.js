@@ -1,4 +1,16 @@
-let obj = JSON.parse($response.body);
-obj.subscriber.subscriptions = {"com.vsco.subscription.yearly": {"is_sandbox": false, "ownership_type": "PURCHASED", "billing_issues_detected_at": null, "period_type": "normal", "expires_date": "2038-01-01T00:00:00Z", "purchase_date": "2023-01-01T00:00:00Z", "store": "app_store"}};
-obj.subscriber.entitlements = {"pro": {"expires_date": "2038-01-01T00:00:00Z", "purchase_date": "2023-01-01T00:00:00Z", "product_identifier": "com.vsco.subscription.yearly"}};
-$done({body: JSON.stringify(obj)});
+let resp = {};
+let obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
+if (typeof $response == "undefined") {
+    delete $request.headers["x-revenuecat-etag"];
+    delete $request.headers["X-RevenueCat-ETag"];
+    resp.headers = $request.headers;
+} else if (obj && obj.subscriber) {
+    obj.subscriber.subscriptions = obj.subscriber.subscriptions || {};
+    obj.subscriber.entitlements = obj.subscriber.entitlements || {};
+    let data = {"expires_date": "2099-01-01T00:00:00Z", "purchase_date": "2023-01-01T00:00:00Z"};
+    obj.subscriber.subscriptions["com.circles.fin.premium.yearly"] = data;
+    obj.subscriber.entitlements["membership"] = data;
+    obj.subscriber.entitlements["membership"].product_identifier = "com.circles.fin.premium.yearly";
+    resp.body = JSON.stringify(obj);
+}
+$done(resp);
