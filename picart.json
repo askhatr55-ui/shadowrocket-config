@@ -1,10 +1,15 @@
-{
+let objc = {
   "status": "success",
   "response": [{
-    "status": "subs_active",
-    "order_id": "310000953683055",
-    "expire_date_ms": 2145916800000,
-    "purchase_date_ms": 1672531200000,
-    "subscription_id": "com.picsart.studio.subscription_yearly"
+    "status": "SUBSCRIPTION_PURCHASED",
+    "expire_date": 4070908800000,
+    "subscription_id": "com.picsart.studio.subscription_plus_yearly",
+    "plan_meta": {
+      "id": "com.picsart.studio.subscription_plus_yearly",
+      "frequency": "yearly",
+      "type": "renewable",
+      "permissions": ["premium_tools_standard", "premium_tools_ai", "remove_background", "restyle_ai"]
+    }
   }]
-}
+};
+$done({body: JSON.stringify(objc)});
