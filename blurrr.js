@@ -1,19 +1,23 @@
 /*
- * Blurrr VIP Unlock by Maasea
+ * Blurrr VIP Unlock (2026 Stable)
  */
 let obj = JSON.parse($response.body);
 
+// Подмена профиля и статуса подписки
 if (obj.data) {
     obj.data.is_vip = true;
     obj.data.vip_type = "official";
     obj.data.vip_status = 1;
-    obj.data.vip_expired_at = 2145916800; // 2038 год
+    obj.data.vip_expired_at = 4070908800; // 2099 год
     obj.data.can_use_vip_assets = true;
     
-    // Если есть данные о текущем пакете, меняем его на годовой
+    // Имитация активного пакета
     if (obj.data.current_package) {
-        obj.data.current_package.id = "com.blurrr.app.yearly";
-        obj.data.current_package.name = "Yearly VIP";
+        obj.data.current_package = {
+            "id": "com.blurrr.app.yearly",
+            "name": "Yearly Premium",
+            "type": "yearly"
+        };
     }
 }
 
